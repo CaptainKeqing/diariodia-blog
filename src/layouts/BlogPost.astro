@@ -23,10 +23,13 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			.hero-image {
 				width: 100%;
 			}
-			.hero-image img {
+			.hero-image img { /* This is an attempt to control the size of image in /blog */
+				width: 100%;
+				height: 400px;
+				object-fit: cover;
 				display: block;
 				margin: 0 auto;
-				border-radius: 12px;
+				border-radius: 12px; /* optional, looks nice */
 				box-shadow: var(--box-shadow);
 			}
 			.prose {

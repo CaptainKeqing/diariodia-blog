@@ -5,7 +5,6 @@ pubDate: 'Feb 16 2026'
 heroImage: '../../assets/elanonuevochino/Chinatown_temple.jpg'
 ---
 
-# Feliz Año Nuevo Chino
 Se acerca el Año Nuevo Chino y todos los chinos estarán pensando: ¿cuánto peso ganaré y cómo consigo perderlo después? Sin duda, la comida es un aspecto imprescindible del Año Nuevo Chino. Celebramos el comienzo del año chino con una abundancia de tentempiés fritos, dulces y carne. ¿Qué significa la comida a los chinos? ¿Por qué comemos tanto a costa de nuestra salud? En este ensayo, te voy a contar el papel de la comida en las festividades del año nuevo chino.
 
 En cuánto a las raciones de la comida, la gran cantidad y el exceso simboliza la riqueza que deseamos. En nuestra cultura, es muy importante demostrar a tu entorno que tienes dinero y que eres rico. Pienso que esto ha influido también en la tradición de comprar y comer tanto en las festividades.
