@@ -2,7 +2,7 @@
 title: 'Bienvenidos a mi blog personal'
 description: ''
 pubDate: 'Feb 02 2026'
-heroImage: '../../../src/assets/bienvenidos/Granada_Park.jpg'
+heroImage: '../../assets/bienvenidos/Granada_Park.jpg'
 ---
 
 # Bienvenidos a mi blog personal

@@ -2,6 +2,7 @@
 title: 'El Año Nuevo Chino'
 description: 'Comentario sobre el Año Nuevo Chino'
 pubDate: 'Feb 16 2026'
+heroImage: '../../assets/elanonuevochino/Chinatown_temple.jpg'
 ---
 
 # Feliz Año Nuevo Chino
