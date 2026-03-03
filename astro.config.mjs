@@ -6,7 +6,6 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://CaptainKeqing.github.io',
-	base: '/diariodia-blog',
+	site: 'https://diario-dia.com',
 	integrations: [mdx(), sitemap()],
 });
