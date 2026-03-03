@@ -20,6 +20,11 @@ const posts = (await getCollection('blog')).sort(
 			main {
 				width: 960px;
 			}
+
+			.blog-post {
+				animation: fadeUp 0.8s ease both;
+			}
+
 			ul {
 				display: flex;
 				flex-wrap: wrap;
@@ -92,8 +97,10 @@ const posts = (await getCollection('blog')).sort(
 			<section>
 				<ul>
 					{
-						posts.map((post) => (
-							<li>
+						// This may cause delays in loading in the future, look into using Island architecture
+						// to load images only when they are in the viewport	
+						posts.map((post, index) => (
+							<li class="blog-post" style={`animation-delay: ${index * 0.15}s`}>
 								<a href={`/blog/${post.id}/`}>
 									{post.data.heroImage && (
 										<Image width={720} height={360} src={post.data.heroImage} alt="" />
