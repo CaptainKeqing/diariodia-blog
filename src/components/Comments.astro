@@ -117,7 +117,9 @@ const { postId } = Astro.props;
         margin-bottom: 2rem;
     }
 
-    :global(.comment) {
+    :global(.comment) {  /* Note on :global(). This lets astro know to apply styles from these classes
+        on all HTML, even those generated dynamically by scripts. Importantly, these decorators are used
+        for styling our comments after populating at runtime with data from Supabase.*/
         /* padding-left: 1rem; */
     }
 
