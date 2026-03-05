@@ -1,17 +1,18 @@
 ---
 import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+import Comments from '../components/Comments.astro';
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+// type Props = CollectionEntry<'blog'>;
+
+const { postId, title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
-<html lang="es">
+<html lang="es" >
 	<head>
 		<BaseHead title={title} description={description} />
 		<style>
@@ -81,6 +82,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 						<hr />
 					</div>
 					<slot />
+					<Comments postId={postId} />
 				</div>
 			</article>
 		</main>

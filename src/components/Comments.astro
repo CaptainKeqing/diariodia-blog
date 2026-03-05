@@ -1,0 +1,197 @@
+---
+const { postId } = Astro.props;
+---
+
+<div class="comments" id="comments-section" data-post-id={postId}> <!-- data-xx-yy passed into the HTML element is automatically converted to dataset.xxYY accessible by JS -->
+    <h3 class="comments-title">Comentarios</h3>
+
+    <!-- Comments list -->
+    <ul id="comments-list">
+        <li id="loading-msg">Cargando comentarios...</li>
+    </ul>
+
+    <!-- Submit form -->
+    <form id="comment-form">
+        <input
+            type="text"
+            name="author"
+            placeholder="Tu nombre"
+            required
+        />
+        <textarea
+            name="body"
+            placeholder="Escribe tu comentario..."
+            required
+        ></textarea>
+        <button type="submit">Publicar comentario</button>
+    </form>
+</div>
+
+<script>
+    import { supabase } from '../lib/supabase.ts';
+
+    const section = document.getElementById("comments-section");
+    const postId = section?.dataset.postId;
+    console.log('postId:', postId);
+    console.log('supabase url:', import.meta.env.PUBLIC_SUPABASE_URL);
+
+    // Fetch and render comments
+    async function loadComments() {
+        const { data, error } = await supabase
+            .from('comments')
+            .select('*')
+            .eq('post_id', postId)
+            .order('created_at', { ascending: true });
+
+        const list = document.getElementById('comments-list')!;
+
+        if (error || !data.length) {
+            list.innerHTML = '<li class="no-comments">Sé el primero en comentar.</li>';
+            return;
+        }
+
+        list.innerHTML = data.map(comment => `
+            <li class="comment">
+                <div class="comment-header">
+                    <span class="comment-author">${comment.author}</span>
+                    <span class="comment-date">${new Date(comment.created_at).toLocaleDateString('es-ES', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: '2-digit'
+                    })}</span>
+                </div>
+                <p class="comment-body">${comment.body}</p>
+            </li>
+        `).join('');
+    }
+
+    // Submit a new comment
+    document.getElementById('comment-form')!.addEventListener('submit', async (e) => {
+        e.preventDefault(); // prevent automatic page refresh
+
+        const commentForm = e.currentTarget as HTMLFormElement;
+        const formData = new FormData(commentForm);
+        const author = formData.get('author');
+        const body = formData.get('body');
+        const button = e.target as HTMLFormElement;
+
+        button.disabled = true;
+        button.textContent = 'Publicando...';
+
+        const { error } = await supabase
+            .from('comments')
+            .insert([{ post_id: postId, author, body }]);
+
+        if (error) {
+            alert('Error al publicar el comentario. Intenta de nuevo.');
+        } else {
+            commentForm.reset();
+            await loadComments();
+        }
+
+    });
+
+    loadComments();
+</script>
+
+<style>
+    .comments {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 2px solid var(--ruler);
+    }
+
+    .comments-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        color: var(--emphasis);
+    }
+
+    #comments-list {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    :global(.comment) {
+        /* padding-left: 1rem; */
+    }
+
+    :global(.comment-header) {
+        display: flex;
+        gap: 1rem;
+        align-items: baseline;
+        margin-bottom: 0.4rem;
+        border-left: 1px solid var(--emphasis);
+    }
+
+    :global(.comment-author) {
+        font-weight: 700;
+        font-size: 1.2rem;
+        padding-left: 1rem;
+    }
+
+    :global(.comment-date) {
+        font-size: 1rem;
+        color: var(--emphasis);
+    }
+
+    :global(.comment-body) {
+        font-size: 1rem;
+        line-height: 1.7;
+        color: var(--ink);
+    }
+
+    :global(.no-comments) {
+        font-size: 1rem;
+        color: var(--ink);
+    }
+
+    #comment-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    #comment-form input,
+    #comment-form textarea {
+        font-family: 'DM Mono', monospace;
+        font-size: 0.82rem;
+        padding: 0.8rem 1rem;
+        border: 2px solid var(--ruler);
+        background: var(--paper);
+        color: var(--ink);
+        outline: none;
+    }
+
+    #comment-form textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    #comment-form input:focus,
+    #comment-form textarea:focus {
+        border-color: var(--accent);
+    }
+
+    #comment-form button {
+        font-family: 'DM Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--ink);
+        background: var(--muted);
+        border: none;
+        padding: 0.8rem 1.8rem;
+        cursor: pointer;
+        align-self: flex-start;
+        transition: background 0.2s;
+    }
+
+    #comment-form button:hover { background: var(--emphasis); }
+    #comment-form button:disabled { background: var(--muted); cursor: not-allowed; }
+</style>
