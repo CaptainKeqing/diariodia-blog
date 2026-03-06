@@ -14,15 +14,14 @@ permissions:
 jobs:
   build:  
     runs-on: ubuntu-latest
-    environment: dev
-    env:
-      PUBLIC_SUPABASE_URL: ${{ vars.PUBLIC_SUPABASE_URL }}  # These are set in GitHub repo settings -> Environment Variables
-      PUBLIC_SUPABASE_ANON_KEY: ${{ vars.PUBLIC_SUPABASE_ANON_KEY }}
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v6
       - name: Install, build, and upload your site
         uses: withastro/action@v5
+        env:
+          PUBLIC_SUPABASE_URL: ${{ vars.PUBLIC_SUPABASE_URL }}  # These are set in GitHub repo settings -> Secrets and Variables
+          PUBLIC_SUPABASE_ANON_KEY: ${{ vars.PUBLIC_SUPABASE_ANON_KEY }}
 
   deploy:
     needs: build
